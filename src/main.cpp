@@ -9,6 +9,7 @@
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
 #include "spline.h"
+#include <random>
 
 using namespace std;
 
@@ -211,6 +212,9 @@ int main() {
 			// The 2 signifies a websocket event
 			//auto sdata = string(data).substr(0, length);
 			//cout << sdata << endl;
+
+
+
 			if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
 				auto s = hasData(data);
@@ -251,7 +255,7 @@ int main() {
 						bool too_close = false;
 
 						// find ref_v to use
-						for (int i = 0; i < sensor_fusion.size(); i++) {
+						for (int i=0; i < sensor_fusion.size(); i++) {
 							// car is in my lane
 							float d = sensor_fusion[i][6];
 
@@ -267,19 +271,22 @@ int main() {
 									too_close = true;
 
 									// Attempt to change lane
-									if (lane > 0) {
-										lane -= 1;
-									} else {
+									if (lane == 0) {
 										lane += 1;
+									} else if (lane == 1) {
+										lane += 1;
+									} else if (lane == 2) {
+										lane -= 1;
 									}
+
 								}
 							}
 						}
 
 						if (too_close) {
-							ref_vel -= .224;
+							ref_vel -= .3;
 						} else if (ref_vel < 49.5) {
-							ref_vel += .224;
+							ref_vel += .3;
 						}
 
 
