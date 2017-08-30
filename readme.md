@@ -3,7 +3,7 @@
 The path generation follows very closely the outline video.
 
 The general idea is that we have a set of "anchor points" (line 334-336): these are points, widely spaced apart, that 
-serve as some fixed points that the vehicle is supposed to pass through. Once we have these points, we use a spline to 
+serve as some fixed points that the vehicle is supposed to pass through. The anchor points come from first going to Frenet coordinates, and then only increasing the s coordinate (i.e. hold the position within the lane constant). Once we have these points, we use a spline to 
 smoothly interpolate between these anchor points (lines 357-370). Since the car cannot follow the entire path generated 
 in the time between two code iterations, we first add the points from the previous code run and only concatenate with
 the points from the spline. Let us note that all of this is done in *vehicle coordinates* (lines 347-354).
